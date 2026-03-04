@@ -190,8 +190,18 @@ const COLORS = {
         }]
       },
       options: {
-        ...chartOptions('Total Sales ($)', true),
         indexAxis: 'y',
+        responsive: true,
+        plugins: {
+          legend: { labels: { color: COLORS.text, font: { size: 12 }, boxWidth: 12 } },
+          tooltip: {
+            callbacks: { label: ctx => ` Total Sales: ${fmt(ctx.raw)}` }
+          }
+        },
+        scales: {
+          x: { ticks: { color: COLORS.text, font: { size: 11 }, callback: v => '$' + (v >= 1000 ? (v/1000).toFixed(0)+'k' : v) }, grid: { color: COLORS.grid } },
+          y: { ticks: { color: COLORS.text, font: { size: 11 } }, grid: { color: COLORS.grid } }
+        }
       }
     });
   }
@@ -278,7 +288,12 @@ const COLORS = {
   // ── HELPERS ───────────────────────────────────────────────────
   function fmt(n)       { return '$' + Math.round(n).toLocaleString(); }
   function setText(id, v){ const el = document.getElementById(id); if (el) el.textContent = v; }
-  function formatMonth(m){ const [y, mo] = m.split('-'); return new Date(y, mo-1).toLocaleString('default', { month: 'short', year: '2-digit' }); }
+  
+  function formatMonth(m) {
+    const [y, mo] = m.split('-');
+    return new Date(y, mo - 1).toLocaleString('default', { month: 'short' }) + " '" + y.slice(2);
+  }
+
   function badgeClass(cat){
     return cat === 'Technology' ? 'badge-tech' : cat === 'Furniture' ? 'badge-furn' : 'badge-office';
   }
@@ -300,7 +315,7 @@ const COLORS = {
           ticks: {
             color: COLORS.text,
             font: { size: 11 },
-            callback: dollars ? v => '$' + (v >= 1000 ? (v/1000).toFixed(0)+'k' : v) : undefined
+            callback: dollars ? v => v < 0 ? '-$' + (Math.abs(v) >= 1000 ? (Math.abs(v)/1000).toFixed(0)+'k' : Math.abs(v)) : '$' + (v >= 1000 ? (v/1000).toFixed(0)+'k' : v) : undefined
           },
           grid: { color: COLORS.grid }
         }
