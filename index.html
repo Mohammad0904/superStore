@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Global Sales Executive Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div id="loading">
+  <div class="spinner"></div> Loading dashboard data...
+</div>
+
+<div id="app" style="display:none;">
+  <div class="dashboard">
+
+    <!-- ── HEADER ── -->
+    <header>
+      <div class="header-left">
+        <h1>📊 Global Sales Executive Dashboard</h1>
+        <p>Real-time sales intelligence across regions and product categories</p>
+      </div>
+      <div class="filters">
+        <div class="filter-group">
+          <label for="regionFilter">Region</label>
+          <select id="regionFilter">
+            <option value="All">All Regions</option>
+            <option value="East">East</option>
+            <option value="West">West</option>
+            <option value="Central">Central</option>
+            <option value="South">South</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="categoryFilter">Category</label>
+          <select id="categoryFilter">
+            <option value="All">All Categories</option>
+            <option value="Technology">Technology</option>
+            <option value="Furniture">Furniture</option>
+            <option value="Office Supplies">Office Supplies</option>
+          </select>
+        </div>
+        <button class="reset-btn" id="resetBtn">↺ Reset</button>
+      </div>
+    </header>
+
+    <!-- ── KPI CARDS ── -->
+    <div class="kpi-grid">
+      <div class="kpi-card blue">
+        <div class="kpi-icon">💰</div>
+        <div class="kpi-label">Total Revenue</div>
+        <div class="kpi-value" id="kpiSales">—</div>
+        <div class="kpi-sub">Gross sales across all orders</div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kpi-icon">📈</div>
+        <div class="kpi-label">Total Profit</div>
+        <div class="kpi-value" id="kpiProfit">—</div>
+        <div class="kpi-sub">Net after product costs</div>
+      </div>
+      <div class="kpi-card orange">
+        <div class="kpi-icon">🧾</div>
+        <div class="kpi-label">Total Orders</div>
+        <div class="kpi-value" id="kpiOrders">—</div>
+        <div class="kpi-sub">Unique transactions</div>
+      </div>
+      <div class="kpi-card purple">
+        <div class="kpi-icon">🛒</div>
+        <div class="kpi-label">Avg Order Value</div>
+        <div class="kpi-value" id="kpiAOV">—</div>
+        <div class="kpi-sub">Revenue per transaction</div>
+      </div>
+      <div class="kpi-card blue">
+        <div class="kpi-icon">🎯</div>
+        <div class="kpi-label">Profit Margin</div>
+        <div class="kpi-value" id="kpiMargin">—</div>
+        <div class="kpi-sub">Profit as % of revenue</div>
+      </div>
+    </div>
+
+    <!-- ── TOP ROW CHARTS ── -->
+    <div class="chart-grid">
+      <div class="chart-card">
+        <h2>Monthly Sales Revenue</h2>
+        <p>Total revenue by month — filtered by selected region &amp; category</p>
+        <div class="chart-wrapper">
+          <canvas id="monthlySalesChart" height="100"></canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <h2>Revenue by Category</h2>
+        <p>Share of total sales across product categories</p>
+        <div class="chart-wrapper">
+          <canvas id="categoryChart" height="160"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── BOTTOM ROW CHARTS ── -->
+    <div class="chart-grid-bottom">
+      <div class="chart-card">
+        <h2>Sales by Region</h2>
+        <p>Ranked total revenue contribution per region</p>
+        <div class="chart-wrapper">
+          <canvas id="regionChart" height="120"></canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <h2>Sales vs. Profit Trend</h2>
+        <p>Monthly comparison of revenue and profit over time</p>
+        <div class="chart-wrapper">
+          <canvas id="profitChart" height="120"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TOP PRODUCTS TABLE ── -->
+    <div class="table-card">
+      <h2>Top 10 Products by Revenue</h2>
+      <p>Filtered view of highest-performing products with profit margin</p>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Product</th>
+            <th>Category</th>
+            <th>Region</th>
+            <th>Revenue</th>
+            <th>Profit</th>
+            <th>Margin</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+
+    <!-- ── FOOTER ── -->
+    <footer>
+      Built with Chart.js &amp; Vanilla JS &nbsp;·&nbsp;
+      Data: Global Superstore Sample &nbsp;·&nbsp;
+      York University — Computer Science Portfolio Project
+    </footer>
+
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
